@@ -17,8 +17,8 @@ type ArticleHandler struct {
 }
 
 func (h *ArticleHandler) GetAll(c *gin.Context) {
-	//data, _ := h.ArticleUseCases.GetAllArticleData()
-	c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": "asdadasdasdasda:}"})
+	data, _ := h.ArticleUseCases.GetAllArticleData()
+	c.JSON(http.StatusOK, data)
 }
 
 func (h *ArticleHandler) Create(c *gin.Context) {

@@ -24,8 +24,8 @@ func (f *FakeMemoryRepository[T]) Create(entity *T, ctx context.Context) error {
 func (f *FakeMemoryRepository[T]) BulkCreate(entity *[]T, ctx context.Context) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	for i, i2 := range *entity {
-		f.data[i2.GetId().String()] = (*entity)[i]
+	for _, i2 := range *entity {
+		f.data[i2.GetId().String()] = i2
 	}
 	return nil
 }
