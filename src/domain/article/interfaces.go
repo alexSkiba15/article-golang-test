@@ -2,20 +2,8 @@ package article
 
 import (
 	"github.com/google/uuid"
-	"time"
+	"rest-project/src/domain/entities"
 )
-
-type Article struct {
-	ID        uuid.UUID `json:"id"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	Title     string    `json:"title"`
-	Text      string    `json:"text"`
-}
-
-func (a Article) GetId() uuid.UUID {
-	return a.ID
-}
 
 type Input struct {
 	Title string `json:"title"`
@@ -23,9 +11,9 @@ type Input struct {
 }
 
 type UseCases interface {
-	GetAllArticleData() (*[]Article, error)
-	Create(i Input) (*Article, error)
+	GetAllArticleData() (*[]entities.Article, error)
+	Create(i Input) (*entities.Article, error)
 	Delete(id uuid.UUID) error
-	GetArticle(articleId uuid.UUID) (*Article, error)
-	UpdateArticle(articleId uuid.UUID, i Input) (*Article, error)
+	GetArticle(articleId uuid.UUID) (*entities.Article, error)
+	UpdateArticle(articleId uuid.UUID, i Input) (*entities.Article, error)
 }

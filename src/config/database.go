@@ -4,10 +4,17 @@ import (
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"rest-project/src/adapters"
+	"log"
+	"rest-project/src/adapters/models"
 )
 
-func DBConnection(pgConfig PostgresDB) *gorm.DB {
+type SPostgres struct {
+	*gorm.DB
+}
+
+func DBConnection(pgConfig PostgresDB) *SPostgres {
+	sPostgres := new(SPostgres)
+	var err error
 
 	dsn := fmt.Sprintf(
 		"host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
@@ -18,14 +25,33 @@ func DBConnection(pgConfig PostgresDB) *gorm.DB {
 		pgConfig.Password,
 	)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		panic(err)
+	sPostgres.DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	log.Println("postgres connection opened")
+
+	if err = sPostgres.setup(); err != nil {
+		log.Fatalln("error in setup postgres ", err)
 	}
 
-	err = db.AutoMigrate(&adapters.Article{})
+	return sPostgres
+}
+
+func (r *SPostgres) setup() error {
+	return r.DB.AutoMigrate(
+		new(models.Article),
+	)
+}
+
+func (r *SPostgres) Close() error {
+	db, err := r.DB.DB()
 	if err != nil {
-		panic(err)
+		return err
 	}
-	return db
+	return db.Close()
+}
+
+func (r *SPostgres) Transaction(fc func(*SPostgres) error) (err error) {
+	return r.DB.Transaction(func(tx *gorm.DB) error {
+		r.DB = tx
+		return fc(r)
+	})
 }
