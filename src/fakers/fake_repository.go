@@ -17,15 +17,15 @@ func (f *FakeMemoryRepository[T]) Create(entity *T, ctx context.Context) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	ent := *entity
-	f.data[ent.GetId().String()] = *entity
+	f.data[ent.GetID().String()] = *entity
 	return nil
 }
 
 func (f *FakeMemoryRepository[T]) BulkCreate(entity *[]T, ctx context.Context) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
-	for _, i2 := range *entity {
-		f.data[i2.GetId().String()] = i2
+	for i, i2 := range *entity {
+		f.data[i2.GetID().String()] = (*entity)[i]
 	}
 	return nil
 }
@@ -47,7 +47,7 @@ func (f *FakeMemoryRepository[T]) Get(params *T, ctx context.Context) (*T, error
 	for _, entity := range f.data {
 		ent := entity
 		param := *params
-		if ent.GetId().String() == param.GetId().String() {
+		if ent.GetID().String() == param.GetID().String() {
 			return &entity, nil
 		}
 	}
@@ -72,13 +72,13 @@ func (f *FakeMemoryRepository[T]) Update(entity *T, ctx context.Context) error {
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	ent := *entity
-	_, ok := f.data[ent.GetId().String()]
+	_, ok := f.data[ent.GetID().String()]
 	if !ok {
 		t := reflect.TypeOf(entity)
 		notFound := adapters.NotFoundError{Name: t.Name()}
 		return notFound.Error()
 	}
-	f.data[ent.GetId().String()] = ent
+	f.data[ent.GetID().String()] = ent
 	return nil
 }
 
@@ -86,13 +86,13 @@ func (f *FakeMemoryRepository[T]) UpdateAll(entity *[]T, ctx context.Context) er
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	for _, ent := range *entity {
-		_, ok := f.data[ent.GetId().String()]
+		_, ok := f.data[ent.GetID().String()]
 		if !ok {
 			t := reflect.TypeOf(entity)
 			notFound := adapters.NotFoundError{Name: t.Name()}
 			return notFound.Error()
 		}
-		f.data[ent.GetId().String()] = ent
+		f.data[ent.GetID().String()] = ent
 	}
 	return nil
 }

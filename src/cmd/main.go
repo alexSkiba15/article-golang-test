@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"rest-project/src/adapters"
 	"rest-project/src/api/controllers"
 	"rest-project/src/api/routers"
 	"rest-project/src/config"
@@ -11,8 +12,9 @@ import (
 func main() {
 	conf, _ := config.NewConfig()
 	db := config.DBConnection(conf.PostgresConfig)
+	uow := adapters.NewUnitOfWork(db)
 
-	test := article.NewArticleRepository(db)
+	//test := article.NewArticleRepository(uow)
 	ctx := context.Background()
 	articleUseCases := article.NewArticleUseCasesImpl(*test, ctx)
 	articleController := controllers.NewArticleHandler(articleUseCases)

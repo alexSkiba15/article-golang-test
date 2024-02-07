@@ -1,19 +1,21 @@
 package article
 
 import (
-	"gorm.io/gorm"
 	"rest-project/src/adapters"
+	"rest-project/src/adapters/models"
 	"rest-project/src/domain/entities"
+
+	"gorm.io/gorm"
 )
 
 type RepositoryArticle interface {
-	*adapters.Repository[adapters.Article, entities.Article]
+	*adapters.Repository[models.Article, entities.Article]
 }
 
-type ArticleRepository struct {
-	*adapters.Repository[adapters.Article, entities.Article]
+type Repository struct {
+	*adapters.Repository[models.Article, entities.Article]
 }
 
-func NewArticleRepository(db *gorm.DB) *ArticleRepository {
-	return &ArticleRepository{adapters.NewRepository[adapters.Article, entities.Article](db)}
+func NewArticleRepository(db *gorm.DB) *Repository {
+	return &Repository{adapters.NewRepository[models.Article, entities.Article](db)}
 }

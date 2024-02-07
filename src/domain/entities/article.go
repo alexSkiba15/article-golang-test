@@ -11,7 +11,7 @@ type Article struct {
 	Text  string `json:"text"`
 }
 
-func (a Article) GetId() uuid.UUID {
+func (a Article) GetID() uuid.UUID {
 	return a.ID
 }
 

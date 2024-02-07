@@ -12,16 +12,16 @@ type Article struct {
 	BaseModel
 }
 
-func (a Article) GetId() uuid.UUID {
+func (a Article) GetID() uuid.UUID {
 	return a.ID
 }
 
 func (a Article) GenUUID() (uuid.UUID, error) {
-	generatedUuid, err := uuid.NewUUID()
+	generatedUUID, err := uuid.NewUUID()
 	if err != nil {
 		fmt.Println(err)
 	}
-	return generatedUuid, nil
+	return generatedUUID, nil
 }
 
 func (a Article) ToEntity() *entities.Article {

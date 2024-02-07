@@ -49,52 +49,61 @@ func NewRepository[TM IModel[TE], TE Model](db *gorm.DB) *Repository[TM, TE] {
 }
 
 func (r *Repository[TM, TE]) Create(entity *TE, ctx context.Context) error {
-	return r.db.WithContext(ctx).Create(&entity).Error
+	var model TM
+	model = model.FromEntity(entity).(TM)
+	return r.db.WithContext(ctx).Create(&model).Error
 }
 
 func (r *Repository[TM, TE]) BulkCreate(entity *[]TE, ctx context.Context) error {
-	return r.db.WithContext(ctx).Create(&entity).Error
+	var models []TM
+	for _, e := range *entity {
+		var model TM
+		models = append(models, model.FromEntity(&e).(TM))
+	}
+	return r.db.WithContext(ctx).Create(&models).Error
 }
 
 func (r *Repository[TM, TE]) GetById(id uuid.UUID, ctx context.Context) (*TE, error) {
-	var entity TE
-	err := r.db.WithContext(ctx).Model(&entity).Where("id = ?", id).First(&entity).Error
+	var model TM
+	err := r.db.WithContext(ctx).Model(&model).Where("id = ?", id).First(&model).Error
 	if err != nil {
 		return nil, err
 	}
-
-	return &entity, nil
+	return model.ToEntity(), nil
 }
 
 func (r *Repository[TM, TE]) Get(params *TE, ctx context.Context) (*TE, error) {
-	var entity TE
-	r.db.WithContext(ctx).Where(&params).First(&entity)
-	if entity == nil {
+	var model TM
+	r.db.WithContext(ctx).Where(&params).First(&model)
+	if model == nil {
 		notFound := NotFoundError{Name: "Article"}
 		return nil, notFound.Error()
 	}
-	return &entity, nil
+	return model.ToEntity(), nil
 }
 
 func (r *Repository[TM, TE]) GetAll(ctx context.Context) (*[]TE, error) {
-	var entities_ []TE
-	err := r.db.WithContext(ctx).Find(&entities_).Error
+	var model TM
+	var entitiesObjects []TE
+	err := r.db.WithContext(ctx).Model(model).Find(&entitiesObjects).Error
 	if err != nil {
 		return nil, err
 	}
-	return &entities_, nil
+	return &entitiesObjects, nil
 }
 
 func (r *Repository[TM, TE]) Where(params *TE, ctx context.Context) (*[]TE, error) {
-	var entities_ []TE
-	err := r.db.WithContext(ctx).Where(&params).Find(&entities_).Error
+	var entitiesObjects []TE
+	err := r.db.WithContext(ctx).Where(&params).Find(&entitiesObjects).Error
 	if err != nil {
 		return nil, err
 	}
-	return &entities_, nil
+	return &entitiesObjects, nil
 }
 
 func (r *Repository[TM, TE]) Update(entity *TE, ctx context.Context) error {
+	var model TM
+	model = model.FromEntity(entity).(TM)
 	return r.db.WithContext(ctx).Save(entity).Error
 }
 
