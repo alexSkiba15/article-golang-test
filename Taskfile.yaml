@@ -1,0 +1,9 @@
+version: 3
+
+tasks:
+  generate:
+    aliases:
+      - gen
+    desc: "Generate code"
+    cmds:
+      - protoc -I=src/api/app ./src/api/app/first.proto --go_out=src/api/app/gen --go_opt=paths=source_relative --go-grpc_out=src/api/app/gen --go-grpc_opt=paths=source_relative

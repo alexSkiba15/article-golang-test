@@ -11,16 +11,15 @@ import (
 )
 
 type UseCasesImpl struct {
-	uow     adapters.UnitOfWork
-	context context.Context
+	articleRepository adapters.ArticleRepository
 }
 
-func NewArticleUseCasesImpl(uow adapters.UnitOfWork, context context.Context) *UseCasesImpl {
-	return &UseCasesImpl{uow: uow, context: context}
+func NewArticleUseCasesImpl(rep adapters.ArticleRepository) *UseCasesImpl {
+	return &UseCasesImpl{articleRepository: rep}
 }
 
-func (a *UseCasesImpl) GetAllArticleData() (*[]entities.Article, error) {
-	articles, err := a.uow.ArticleRepository().GetAll(a.context)
+func (a *UseCasesImpl) GetAllArticleData(ctx context.Context) (*[]entities.Article, error) {
+	articles, err := a.articleRepository.GetAll(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +27,7 @@ func (a *UseCasesImpl) GetAllArticleData() (*[]entities.Article, error) {
 
 	for i, article := range *articles {
 		resultArticles[i] = entities.Article{
-			Base:  *entities.NewBase(article.ID, article.CreatedAt, &article.UpdatedAt),
+			Base:  *entities.NewBase(article.ID, article.CreatedAt, article.UpdatedAt),
 			Title: article.Title,
 			Text:  article.Text,
 		}
@@ -36,13 +35,15 @@ func (a *UseCasesImpl) GetAllArticleData() (*[]entities.Article, error) {
 	return &resultArticles, nil
 }
 
-func (a *UseCasesImpl) Create(i Input) (*entities.Article, error) {
+func (a *UseCasesImpl) Create(ctx context.Context, i Input) (*entities.Article, error) {
+	fmt.Printf("Creating article with title: %v and text: %v\n", i.Title, i.Text)
 	result := &entities.Article{
-		Base:  *entities.NewBase(adapters.UUIDGenerator(), time.Now().UTC(), nil),
+		Base:  *entities.NewBase(adapters.UUIDGenerator(), time.Now().UTC(), time.Now().UTC()),
 		Title: i.Title,
 		Text:  i.Text,
 	}
-	err := a.uow.ArticleRepository().Create(result, a.context)
+	fmt.Println(result)
+	err := a.articleRepository.Create(result, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50,13 +51,13 @@ func (a *UseCasesImpl) Create(i Input) (*entities.Article, error) {
 	return result, nil
 }
 
-func (a *UseCasesImpl) Delete(id uuid.UUID) error {
-	err := a.uow.ArticleRepository().DeleteById(id, a.context)
+func (a *UseCasesImpl) Delete(ctx context.Context, id uuid.UUID) error {
+	err := a.articleRepository.DeleteById(id, ctx)
 	return err
 }
 
-func (a *UseCasesImpl) GetArticle(articleId uuid.UUID) (*entities.Article, error) {
-	art, err := a.uow.ArticleRepository().GetById(articleId, a.context)
+func (a *UseCasesImpl) GetArticle(ctx context.Context, articleId uuid.UUID) (*entities.Article, error) {
+	art, err := a.articleRepository.GetById(articleId, ctx)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return nil, err
@@ -64,20 +65,21 @@ func (a *UseCasesImpl) GetArticle(articleId uuid.UUID) (*entities.Article, error
 	return art, nil
 }
 
-func (a *UseCasesImpl) UpdateArticle(articleId uuid.UUID, i Input) (*entities.Article, error) {
-	currentArticle, err := a.uow.ArticleRepository().GetById(articleId, a.context)
+func (a *UseCasesImpl) UpdateArticle(ctx context.Context, articleId uuid.UUID, i Input) (*entities.Article, error) {
+	currentArticle, err := a.articleRepository.GetById(articleId, ctx)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return nil, err
 	}
 	currentArticle.Title = i.Title
 	currentArticle.Text = i.Text
-	err = a.uow.ArticleRepository().Update(currentArticle, a.context)
+	err = a.articleRepository.Update(currentArticle, ctx)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 	}
+
 	return &entities.Article{
-		Base:  *entities.NewBase(currentArticle.ID, currentArticle.CreatedAt, &currentArticle.UpdatedAt),
+		Base:  *entities.NewBase(currentArticle.ID, currentArticle.CreatedAt, currentArticle.UpdatedAt),
 		Title: currentArticle.Title,
 		Text:  currentArticle.Text,
 	}, nil

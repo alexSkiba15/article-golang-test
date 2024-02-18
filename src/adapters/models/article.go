@@ -21,6 +21,7 @@ func (a Article) GenUUID() (uuid.UUID, error) {
 	if err != nil {
 		fmt.Println(err)
 	}
+
 	return generatedUUID, nil
 }
 
@@ -39,5 +40,6 @@ func (a Article) FromEntity(entity *entities.Article) any {
 	a.Title = entity.Title
 	a.Text = entity.Text
 	a.BaseModel.FromEntity(&entity.Base)
+
 	return a
 }

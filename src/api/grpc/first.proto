@@ -1,19 +1,52 @@
 syntax = "proto3";
 
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
 
 package api;
 
+option go_package = "alex.timer.api;timergrpc";
 
-service APITest {
-  rpc Test (TestRequest) returns (TestResponse) {}
+enum CallbackType {
+  HTTP = 0;
+  RABBITMQ = 1;
 }
 
-message TestRequest {
-  string name = 1;
-  string email = 2;
+
+service APITimer {
+  rpc Timer (TimerRequest) returns (TimerResponse) {}
+  rpc CallbackConfig (CallbackConfigRequest) returns (CallbackConfigResponse) {}
 }
 
-message TestResponse {
-  string message = 1;
-  string name = 2;
+message TimerRequest {
+  google.protobuf.Timestamp expired_at = 1;
+  google.protobuf.Struct payload = 2;
+  string callback_config_id = 3;
+}
+
+message TimerResponse {
+  string id = 1;
+  google.protobuf.Timestamp expired_at = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp send_at = 4;
+  string status = 5;
+  int32 retry_count = 6;
+  string error_message = 7;
+  google.protobuf.Timestamp last_retried = 8;
+  google.protobuf.Struct payload = 9;
+  CallbackConfigResponse callback_config = 10;
+  string url = 11;
+}
+
+message CallbackConfigRequest {
+  optional string url = 1;
+  CallbackType type = 2;
+  map<string, google.protobuf.Struct> params = 3;
+}
+
+message CallbackConfigResponse {
+  string id = 1;
+  CallbackType type = 2;
+  string url = 3;
+  map<string, google.protobuf.Struct> params = 4;
 }

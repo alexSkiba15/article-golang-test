@@ -17,7 +17,7 @@ type ArticleHandler struct {
 }
 
 func (h *ArticleHandler) GetAll(c *gin.Context) {
-	data, _ := h.ArticleUseCases.GetAllArticleData()
+	data, _ := h.ArticleUseCases.GetAllArticleData(c)
 	c.JSON(http.StatusOK, data)
 }
 
@@ -27,7 +27,7 @@ func (h *ArticleHandler) Create(c *gin.Context) {
 	if err := c.BindJSON(&newArticleInput); err != nil {
 		return
 	}
-	data, _ := h.ArticleUseCases.Create(newArticleInput)
+	data, _ := h.ArticleUseCases.Create(c, newArticleInput)
 	c.JSON(http.StatusCreated, data)
 }
 
@@ -39,7 +39,7 @@ func (h *ArticleHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	err = h.ArticleUseCases.Delete(parsedUUID)
+	err = h.ArticleUseCases.Delete(c, parsedUUID)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -54,7 +54,7 @@ func (h *ArticleHandler) GetArticleById(c *gin.Context) {
 		return
 	}
 
-	responseArticle, err := h.ArticleUseCases.GetArticle(parsedUUID)
+	responseArticle, err := h.ArticleUseCases.GetArticle(c, parsedUUID)
 	if err != nil {
 		c.JSON(http.StatusNotFound, nil)
 	} else {
@@ -75,7 +75,7 @@ func (h *ArticleHandler) UpdateArticle(c *gin.Context) {
 		return
 	}
 
-	responseArticle, err := h.ArticleUseCases.UpdateArticle(parsedUUID, newArticleInput)
+	responseArticle, err := h.ArticleUseCases.UpdateArticle(c, parsedUUID, newArticleInput)
 	if err != nil {
 		c.JSON(http.StatusNotFound, nil)
 	} else {

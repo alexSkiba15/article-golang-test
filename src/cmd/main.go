@@ -1,26 +1,22 @@
 package main
 
 import (
-	"context"
-	"rest-project/src/adapters"
-	"rest-project/src/api/controllers"
+	"github.com/gin-gonic/gin"
 	"rest-project/src/api/routers"
 	"rest-project/src/config"
-	"rest-project/src/domain/article"
+	"time"
 )
 
 func main() {
 	conf, _ := config.NewConfig()
 	db := config.DBConnection(conf.PostgresConfig)
-	uow := adapters.NewUnitOfWork(db)
+	defer db.Close()
+	timeout := time.Duration(60) * time.Second
+	engine := gin.Default()
+	engine.Use(gin.Logger())
+	routers.SetupRouter(conf, db, timeout, engine)
 
-	//test := article.NewArticleRepository(uow)
-	ctx := context.Background()
-	articleUseCases := article.NewArticleUseCasesImpl(*test, ctx)
-	articleController := controllers.NewArticleHandler(articleUseCases)
-	r := routers.SetupRouter(articleController)
-	// Listen and Server in 0.0.0.0:8080
-	err := r.Run(":8080")
+	err := engine.Run(":8080")
 	if err != nil {
 		panic(err)
 	}

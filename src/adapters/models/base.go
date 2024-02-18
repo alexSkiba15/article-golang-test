@@ -16,7 +16,7 @@ func (b BaseModel) ToEntity() *entities.Base {
 	return entities.NewBase(
 		b.ID,
 		b.CreatedAt,
-		&b.UpdatedAt,
+		b.UpdatedAt,
 	)
 }
 
@@ -24,5 +24,6 @@ func (b BaseModel) FromEntity(entity *entities.Base) any {
 	b.ID = entity.ID
 	b.UpdatedAt = entity.UpdatedAt
 	b.CreatedAt = entity.CreatedAt
+
 	return b
 }

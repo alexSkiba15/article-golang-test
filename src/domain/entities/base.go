@@ -11,10 +11,10 @@ type Base struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func NewBase(ID uuid.UUID, createdAt time.Time, updatedAt *time.Time) *Base {
+func NewBase(ID uuid.UUID, createdAt time.Time, updatedAt time.Time) *Base {
 	return &Base{
 		ID:        ID,
 		CreatedAt: createdAt,
-		UpdatedAt: *updatedAt,
+		UpdatedAt: updatedAt,
 	}
 }

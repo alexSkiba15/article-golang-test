@@ -6,7 +6,8 @@ import (
 
 type (
 	Config struct {
-		PostgresConfig PostgresDB
+		PostgresConfig   PostgresDB
+		GRPCServerConfig GRPCServer
 	}
 
 	PostgresDB struct {
@@ -19,6 +20,11 @@ type (
 
 	Server struct {
 		Port string `env-required:"true" env:"PORT" env-default:"8080"`
+	}
+
+	GRPCServer struct {
+		Port   string `env-required:"true" env:"GRPC_PORT" env-default:"8081"`
+		Timout string `env-required:"true" env:"GRPC_TIMEOUT" env-default:"60s"`
 	}
 )
 

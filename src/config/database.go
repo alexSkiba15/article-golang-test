@@ -41,12 +41,15 @@ func (r *SPostgres) setup() error {
 	)
 }
 
-func (r *SPostgres) Close() error {
+func (r *SPostgres) Close() {
 	db, err := r.DB.DB()
 	if err != nil {
-		return err
+		fmt.Println("error in closing db ", err)
 	}
-	return db.Close()
+	err = db.Close()
+	if err != nil {
+		fmt.Println("error in closing db ", err)
+	}
 }
 
 func (r *SPostgres) Transaction(fc func(*SPostgres) error) (err error) {

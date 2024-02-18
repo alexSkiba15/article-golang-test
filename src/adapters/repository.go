@@ -2,6 +2,7 @@ package adapters
 
 import (
 	"context"
+	"errors"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"rest-project/src/domain/entities"
@@ -30,11 +31,6 @@ type (
 
 	ArticleRepository interface {
 		Repo[entities.Article]
-	}
-
-	UnitOfWork interface {
-		ArticleRepository() ArticleRepository
-		Do(func(UnitOfWork) error) error
 	}
 
 	Repository[TM IModel[TE], TE Model] struct {
@@ -74,8 +70,8 @@ func (r *Repository[TM, TE]) GetById(id uuid.UUID, ctx context.Context) (*TE, er
 
 func (r *Repository[TM, TE]) Get(params *TE, ctx context.Context) (*TE, error) {
 	var model TM
-	r.db.WithContext(ctx).Where(&params).First(&model)
-	if model == nil {
+	result := r.db.WithContext(ctx).Where(&params).First(&model)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		notFound := NotFoundError{Name: "Article"}
 		return nil, notFound.Error()
 	}
@@ -118,12 +114,12 @@ func (r *Repository[TM, TE]) DeleteById(id uuid.UUID, ctx context.Context) error
 }
 
 func (r *Repository[TM, TE]) SkipTake(skip int, take int, ctx context.Context) (*[]TE, error) {
-	var entities_ []TE
-	err := r.db.WithContext(ctx).Offset(skip).Limit(take).Find(&entities_).Error
+	var objects []TE
+	err := r.db.WithContext(ctx).Offset(skip).Limit(take).Find(&objects).Error
 	if err != nil {
 		return nil, err
 	}
-	return &entities_, nil
+	return &objects, nil
 }
 
 func (r *Repository[TM, TE]) Count(ctx context.Context) int64 {

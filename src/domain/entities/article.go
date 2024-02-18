@@ -17,7 +17,7 @@ func (a Article) GetID() uuid.UUID {
 
 func NewArticle(id uuid.UUID, createdAt time.Time, updatedAt time.Time, title string, text string) *Article {
 	return &Article{
-		Base:  *NewBase(id, createdAt, &updatedAt),
+		Base:  *NewBase(id, createdAt, updatedAt),
 		Title: title,
 		Text:  text,
 	}

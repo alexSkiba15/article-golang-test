@@ -5,6 +5,6 @@ import (
 )
 
 func UUIDGenerator() uuid.UUID {
-	generatedUuid, _ := uuid.NewUUID()
-	return generatedUuid
+	generatedUUID, _ := uuid.NewUUID()
+	return generatedUUID
 }
