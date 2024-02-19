@@ -1,9 +1,10 @@
 package models
 
 import (
-	"github.com/google/uuid"
 	"rest-project/src/domain/entities"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type BaseModel struct {

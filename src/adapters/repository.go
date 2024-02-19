@@ -3,9 +3,10 @@ package adapters
 import (
 	"context"
 	"errors"
+	"rest-project/src/domain/entities"
+
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"rest-project/src/domain/entities"
 )
 
 type (
@@ -99,7 +100,7 @@ func (r *Repository[TM, TE]) Where(params *TE, ctx context.Context) (*[]TE, erro
 
 func (r *Repository[TM, TE]) Update(entity *TE, ctx context.Context) error {
 	var model TM
-	model = model.FromEntity(entity).(TM)
+	_ = model.FromEntity(entity).(TM)
 	return r.db.WithContext(ctx).Save(entity).Error
 }
 

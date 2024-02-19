@@ -2,9 +2,11 @@ package grpcapp
 
 import (
 	"context"
+	"fmt"
+	timergrpc "rest-project/src/api/grpc/gen"
+
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
-	timergrpc "rest-project/src/api/grpc/gen"
 )
 
 type serverGRPCAPI struct {
@@ -18,6 +20,7 @@ func Register(gRPC *grpc.Server) {
 func (s *serverGRPCAPI) CallbackConfig(
 	ctx context.Context, req *timergrpc.CallbackConfigRequest,
 ) (*timergrpc.CallbackConfigResponse, error) {
+	fmt.Println("CallbackConfig")
 	idCallback, _ := uuid.NewUUID()
 	return &timergrpc.CallbackConfigResponse{
 		Id:     idCallback.String(),

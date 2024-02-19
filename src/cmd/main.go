@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"rest-project/src/api/routers"
 	"rest-project/src/config"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {

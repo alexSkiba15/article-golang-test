@@ -2,8 +2,9 @@ package models
 
 import (
 	"fmt"
-	"github.com/google/uuid"
 	"rest-project/src/domain/entities"
+
+	"github.com/google/uuid"
 )
 
 type Article struct {

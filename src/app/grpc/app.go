@@ -2,8 +2,9 @@ package grpcapp
 
 import (
 	"fmt"
-	"google.golang.org/grpc"
 	"net"
+
+	"google.golang.org/grpc"
 )
 
 type App struct {

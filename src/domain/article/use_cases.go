@@ -3,11 +3,12 @@ package article
 import (
 	"context"
 	"fmt"
-	"github.com/google/uuid"
 	"rest-project/src/adapters"
 	_ "rest-project/src/adapters/models"
 	"rest-project/src/domain/entities"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type UseCasesImpl struct {

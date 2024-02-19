@@ -1,8 +1,9 @@
 package entities
 
 import (
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type Base struct {
@@ -11,9 +12,9 @@ type Base struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func NewBase(ID uuid.UUID, createdAt time.Time, updatedAt time.Time) *Base {
+func NewBase(id uuid.UUID, createdAt time.Time, updatedAt time.Time) *Base {
 	return &Base{
-		ID:        ID,
+		ID:        id,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
 	}

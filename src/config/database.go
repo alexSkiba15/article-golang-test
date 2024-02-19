@@ -2,10 +2,11 @@ package config
 
 import (
 	"fmt"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"log"
 	"rest-project/src/adapters/models"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 type SPostgres struct {
@@ -25,7 +26,7 @@ func DBConnection(pgConfig PostgresDB) *SPostgres {
 		pgConfig.Password,
 	)
 
-	sPostgres.DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	sPostgres.DB, _ = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	log.Println("postgres connection opened")
 
 	if err = sPostgres.setup(); err != nil {

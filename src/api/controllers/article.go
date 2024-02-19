@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"net/http"
 	"rest-project/src/domain/article"
+
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type ResponseError struct {
@@ -64,19 +65,19 @@ func (h *ArticleHandler) GetArticleById(c *gin.Context) {
 
 func (h *ArticleHandler) UpdateArticle(c *gin.Context) {
 	articleID := c.Param("articleID")
-	parsedUUID, err := uuid.Parse(articleID)
+	parsedUUID, errUUID := uuid.Parse(articleID)
 	var newArticleInput article.Input
 
-	if err != nil {
-		fmt.Printf("Error parsing UUID: %v\n", err)
+	if errUUID != nil {
+		fmt.Printf("Error parsing UUID: %v\n", errUUID)
 		return
 	}
-	if err := c.BindJSON(&newArticleInput); err != nil {
+	if errBind := c.BindJSON(&newArticleInput); errBind != nil {
 		return
 	}
 
-	responseArticle, err := h.ArticleUseCases.UpdateArticle(c, parsedUUID, newArticleInput)
-	if err != nil {
+	responseArticle, errArticle := h.ArticleUseCases.UpdateArticle(c, parsedUUID, newArticleInput)
+	if errArticle != nil {
 		c.JSON(http.StatusNotFound, nil)
 	} else {
 		c.JSON(http.StatusOK, responseArticle)

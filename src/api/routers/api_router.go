@@ -1,9 +1,10 @@
 package routers
 
 import (
-	"github.com/gin-gonic/gin"
 	"rest-project/src/config"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter(conf *config.Config, db *config.SPostgres, timeout time.Duration, engine *gin.Engine) {

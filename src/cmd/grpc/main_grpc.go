@@ -14,6 +14,5 @@ func main() {
 	err := application.GRPCServer.Start()
 	if err != nil {
 		panic(err)
-		return
 	}
 }
