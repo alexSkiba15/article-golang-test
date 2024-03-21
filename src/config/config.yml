@@ -1,0 +1,22 @@
+app:
+  name: 'rest-project'
+  version: '1.0.0'
+
+server:
+  port: '8080'
+
+grpc_server:
+  port: '8081'
+  timout: '60s'
+
+logger:
+  log_level: 'debug'
+  rollbar_env: 'rest-project'
+
+postgres_db:
+  pool_max: 2
+  port: 5498
+  password: 'postgres'
+  user: 'postgres'
+  db_name: 'postgres'
+  host: 'localhost'

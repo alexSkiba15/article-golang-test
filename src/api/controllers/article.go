@@ -2,10 +2,10 @@ package controllers
 
 import (
 	"fmt"
-	"net/http"
 	"rest-project/src/domain/article"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
+
 	"github.com/google/uuid"
 )
 
@@ -17,70 +17,73 @@ type ArticleHandler struct {
 	ArticleUseCases article.UseCases
 }
 
-func (h *ArticleHandler) GetAll(c *gin.Context) {
-	data, _ := h.ArticleUseCases.GetAllArticleData(c)
-	c.JSON(http.StatusOK, data)
+func (h *ArticleHandler) GetAll(c *fiber.Ctx) error {
+	data, err := h.ArticleUseCases.GetAllArticleData(c.Context())
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(ResponseError{Message: err.Error()})
+	}
+	return c.Status(fiber.StatusOK).JSON(data)
 }
 
-func (h *ArticleHandler) Create(c *gin.Context) {
+func (h *ArticleHandler) Create(c *fiber.Ctx) error {
 	var newArticleInput article.Input
 
-	if err := c.BindJSON(&newArticleInput); err != nil {
-		return
+	if err := c.BodyParser(&newArticleInput); err != nil {
+		return nil
 	}
-	data, _ := h.ArticleUseCases.Create(c, newArticleInput)
-	c.JSON(http.StatusCreated, data)
+	data, _ := h.ArticleUseCases.Create(c.Context(), newArticleInput)
+	return c.Status(fiber.StatusOK).JSON(data)
 }
 
-func (h *ArticleHandler) Delete(c *gin.Context) {
-	articleID := c.Param("articleID")
+func (h *ArticleHandler) Delete(c *fiber.Ctx) error {
+	articleID := c.Params("articleID")
 	parsedUUID, err := uuid.Parse(articleID)
 	if err != nil {
 		fmt.Printf("Error parsing UUID: %v\n", err)
-		return
+		return nil
 	}
 
-	err = h.ArticleUseCases.Delete(c, parsedUUID)
+	err = h.ArticleUseCases.Delete(c.Context(), parsedUUID)
 	if err != nil {
 		fmt.Println(err)
 	}
-	c.JSON(http.StatusNoContent, nil)
+	return c.Status(fiber.StatusNoContent).JSON(nil)
 }
 
-func (h *ArticleHandler) GetArticleById(c *gin.Context) {
-	articleID := c.Param("articleID")
+func (h *ArticleHandler) GetArticleById(c *fiber.Ctx) error {
+	articleID := c.Params("articleID")
 	parsedUUID, err := uuid.Parse(articleID)
 	if err != nil {
 		fmt.Printf("Error parsing UUID: %v\n", err)
-		return
+		return nil
 	}
 
-	responseArticle, err := h.ArticleUseCases.GetArticle(c, parsedUUID)
+	responseArticle, err := h.ArticleUseCases.GetArticle(c.Context(), parsedUUID)
 	if err != nil {
-		c.JSON(http.StatusNotFound, nil)
+		return c.Status(fiber.StatusNotFound).JSON(nil)
 	} else {
-		c.JSON(http.StatusOK, responseArticle)
+		return c.Status(fiber.StatusOK).JSON(responseArticle)
 	}
 }
 
-func (h *ArticleHandler) UpdateArticle(c *gin.Context) {
-	articleID := c.Param("articleID")
+func (h *ArticleHandler) UpdateArticle(c *fiber.Ctx) error {
+	articleID := c.Params("articleID")
 	parsedUUID, errUUID := uuid.Parse(articleID)
 	var newArticleInput article.Input
 
 	if errUUID != nil {
 		fmt.Printf("Error parsing UUID: %v\n", errUUID)
-		return
+		return nil
 	}
-	if errBind := c.BindJSON(&newArticleInput); errBind != nil {
-		return
+	if errBind := c.BodyParser(&newArticleInput); errBind != nil {
+		return nil
 	}
 
-	responseArticle, errArticle := h.ArticleUseCases.UpdateArticle(c, parsedUUID, newArticleInput)
+	responseArticle, errArticle := h.ArticleUseCases.UpdateArticle(c.Context(), parsedUUID, newArticleInput)
 	if errArticle != nil {
-		c.JSON(http.StatusNotFound, nil)
+		return c.Status(fiber.StatusNotFound).JSON(nil)
 	} else {
-		c.JSON(http.StatusOK, responseArticle)
+		return c.Status(fiber.StatusOK).JSON(responseArticle)
 	}
 }
 

@@ -45,11 +45,11 @@ func (r *SPostgres) setup() error {
 func (r *SPostgres) Close() {
 	db, err := r.DB.DB()
 	if err != nil {
-		fmt.Println("error in closing db ", err)
+		fmt.Printf("error in closing db %s", err)
 	}
 	err = db.Close()
 	if err != nil {
-		fmt.Println("error in closing db ", err)
+		fmt.Printf("error in closing db %s", err)
 	}
 }
 

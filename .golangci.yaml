@@ -1,6 +1,5 @@
 linters-settings:
   govet:
-    check-shadowing: true
     settings:
       printf:
         funcs:
@@ -10,8 +9,6 @@ linters-settings:
           - (github.com/golangci/golangci-lint/pkg/logutils.Log).Fatalf
   gocyclo:
     min-complexity: 50
-  maligned:
-    suggest-new: true
   dupl:
     threshold: 100
   goconst:
@@ -48,19 +45,6 @@ linters:
     - unparam
     - unused
     - gocritic
-
-  # don't enable:
-  # - gochecknoglobals
-  # - gocognit
-  # - godox
-  # - maligned
-  # - prealloc
-
-run:
-  skip-dirs:
-  # - test/testdata_etc
-  skip-files:
-    - ".*_test\\.go$"
 
 issues:
   exclude-rules:

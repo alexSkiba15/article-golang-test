@@ -1,11 +1,10 @@
 version: '3.8'
 services:
   postgres:
-    image: postgres:16
+    image: postgres:latest
     ports:
       - "5498:5432"
     environment:
-      - POSTGRES_PORT=5432
-      - POSTGRES_NAME=stocks
+      - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

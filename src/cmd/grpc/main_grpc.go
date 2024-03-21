@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	conf, _ := config.NewConfig()
-	port, _ := strconv.Atoi(conf.GRPCServerConfig.Port)
+	conf := config.NewConfig()
+	port, _ := strconv.Atoi(conf.GRPCServer.Port)
 
 	application := app.New(port)
 	err := application.GRPCServer.Start()

@@ -4,10 +4,10 @@ import (
 	"rest-project/src/config"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func SetupRouter(conf *config.Config, db *config.SPostgres, timeout time.Duration, engine *gin.Engine) {
-	api := engine.Group("/api")
+func SetupRouter(conf *config.Config, db *config.SPostgres, timeout time.Duration, app *fiber.App) {
+	api := app.Group("/api")
 	NewArticleRouter(conf, db, timeout, api)
 }

@@ -5,19 +5,23 @@ import (
 	"rest-project/src/config"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/bytedance/sonic"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
-	conf, _ := config.NewConfig()
-	db := config.DBConnection(conf.PostgresConfig)
+	conf := config.NewConfig()
+	db := config.DBConnection(conf.PostgresDB)
 	defer db.Close()
 	timeout := time.Duration(60) * time.Second
-	engine := gin.Default()
-	engine.Use(gin.Logger())
+	engine := fiber.New(
+		fiber.Config{JSONDecoder: sonic.Unmarshal, JSONEncoder: sonic.Marshal},
+	)
+	engine.Use(cors.New())
 	routers.SetupRouter(conf, db, timeout, engine)
-
-	err := engine.Run(":8080")
+	err := engine.Listen(":8080")
 	if err != nil {
 		panic(err)
 	}
