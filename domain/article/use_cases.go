@@ -3,9 +3,9 @@ package article
 import (
 	"context"
 	"fmt"
-	"rest-project/src/adapters"
-	_ "rest-project/src/adapters/models"
-	"rest-project/src/domain/entities"
+	"rest-project/adapters"
+	_ "rest-project/adapters/models"
+	"rest-project/domain/entities"
 	"time"
 
 	"github.com/google/uuid"

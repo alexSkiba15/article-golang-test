@@ -84,5 +84,5 @@ func projectRoot() string {
 	_, b, _, _ := runtime.Caller(0)
 	projectRoot := filepath.Dir(b)
 
-	return projectRoot + "/../../"
+	return projectRoot + "/../"
 }

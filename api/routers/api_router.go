@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"rest-project/src/config"
+	"rest-project/config"
 	"time"
 
 	"github.com/gofiber/fiber/v2"

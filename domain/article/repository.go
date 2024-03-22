@@ -1,9 +1,9 @@
 package article
 
 import (
-	"rest-project/src/adapters"
-	"rest-project/src/adapters/models"
-	"rest-project/src/domain/entities"
+	"rest-project/adapters"
+	"rest-project/adapters/models"
+	"rest-project/domain/entities"
 
 	"gorm.io/gorm"
 )

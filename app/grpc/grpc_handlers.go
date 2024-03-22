@@ -3,7 +3,7 @@ package grpcapp
 import (
 	"context"
 	"fmt"
-	timergrpc "rest-project/src/api/grpc/gen"
+	timergrpc "rest-project/api/grpc/gen"
 
 	"github.com/google/uuid"
 	"google.golang.org/grpc"

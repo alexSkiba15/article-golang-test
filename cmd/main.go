@@ -1,8 +1,8 @@
 package main
 
 import (
-	"rest-project/src/api/routers"
-	"rest-project/src/config"
+	"rest-project/api/routers"
+	"rest-project/config"
 	"time"
 
 	"github.com/bytedance/sonic"

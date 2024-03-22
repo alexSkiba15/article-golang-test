@@ -1,7 +1,7 @@
 package models
 
 import (
-	"rest-project/src/domain/entities"
+	"rest-project/domain/entities"
 	"time"
 
 	"github.com/google/uuid"

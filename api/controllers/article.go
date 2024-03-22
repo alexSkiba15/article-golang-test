@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fmt"
-	"rest-project/src/domain/article"
+	"rest-project/domain/article"
 
 	"github.com/gofiber/fiber/v2"
 

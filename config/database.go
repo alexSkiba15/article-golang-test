@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"log"
-	"rest-project/src/adapters/models"
+	"rest-project/adapters/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

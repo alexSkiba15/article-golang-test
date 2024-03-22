@@ -1,9 +1,9 @@
 package routers
 
 import (
-	"rest-project/src/api/controllers"
-	"rest-project/src/config"
-	"rest-project/src/domain/article"
+	"rest-project/api/controllers"
+	"rest-project/config"
+	"rest-project/domain/article"
 	"time"
 
 	"github.com/gofiber/fiber/v2"

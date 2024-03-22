@@ -1,7 +1,7 @@
 package app
 
 import (
-	grpcapp "rest-project/src/app/grpc"
+	grpcapp "rest-project/app/grpc"
 )
 
 type App struct {

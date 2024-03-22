@@ -1,8 +1,8 @@
 package main
 
 import (
-	"rest-project/src/app"
-	"rest-project/src/config"
+	"rest-project/app"
+	"rest-project/config"
 	"strconv"
 )
 

@@ -2,7 +2,7 @@ package models
 
 import (
 	"fmt"
-	"rest-project/src/domain/entities"
+	"rest-project/domain/entities"
 
 	"github.com/google/uuid"
 )
