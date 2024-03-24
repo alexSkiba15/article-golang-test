@@ -1,10 +1,19 @@
 with-expecter: true
+quiet: False
+disable-version-string: True
+mockname: "{{.InterfaceName}}"
+filename: "{{.MockName}}.go"
+outpkg: mocks
+
 packages:
-  github.com/your-org/your-go-project:
-    # place your package-specific config here
+  github.com/alexSkiba15/article-golang-test/adapters/repository:
     config:
     interfaces:
       # select the interfaces you want mocked
-      Foo:
-        # Modify package-level config for this specific interface (if applicable)
-        config:
+      ArticleRepository:
+#         Modify package-level config for this specific interface (if applicable)
+#        config:
+#          filename: "mock_{{.InterfaceName}}.go"
+#          dir: "mocks/{{.PackagePath}}"
+#          mockname: "Mock{{.InterfaceName}}"
+#          outpkg: "{{.PackageName}}"

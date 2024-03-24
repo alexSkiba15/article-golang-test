@@ -3,7 +3,8 @@ package config
 import (
 	"fmt"
 	"log"
-	"rest-project/adapters/models"
+
+	"github.com/alexSkiba15/article-golang-test/adapters/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

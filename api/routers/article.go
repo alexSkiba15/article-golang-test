@@ -1,10 +1,11 @@
 package routers
 
 import (
-	"rest-project/api/controllers"
-	"rest-project/config"
-	"rest-project/domain/article"
 	"time"
+
+	"github.com/alexSkiba15/article-golang-test/api/controllers"
+	"github.com/alexSkiba15/article-golang-test/config"
+	"github.com/alexSkiba15/article-golang-test/domain/article"
 
 	"github.com/gofiber/fiber/v2"
 )

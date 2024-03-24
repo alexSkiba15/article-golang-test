@@ -1,9 +1,10 @@
 package main
 
 import (
-	"rest-project/api/routers"
-	"rest-project/config"
 	"time"
+
+	"github.com/alexSkiba15/article-golang-test/api/routers"
+	"github.com/alexSkiba15/article-golang-test/config"
 
 	"github.com/bytedance/sonic"
 

@@ -3,10 +3,11 @@ package article
 import (
 	"context"
 	"fmt"
-	"rest-project/adapters"
-	_ "rest-project/adapters/models"
-	"rest-project/domain/entities"
 	"time"
+
+	"github.com/alexSkiba15/article-golang-test/adapters"
+	_ "github.com/alexSkiba15/article-golang-test/adapters/models"
+	"github.com/alexSkiba15/article-golang-test/domain/entities"
 
 	"github.com/google/uuid"
 )
@@ -44,7 +45,7 @@ func (a *UseCasesImpl) Create(ctx context.Context, i Input) (*entities.Article, 
 		Text:  i.Text,
 	}
 	fmt.Println(result)
-	err := a.articleRepository.Create(result, ctx)
+	err := a.articleRepository.Create(ctx, result)
 	if err != nil {
 		return nil, err
 	}
@@ -53,12 +54,12 @@ func (a *UseCasesImpl) Create(ctx context.Context, i Input) (*entities.Article, 
 }
 
 func (a *UseCasesImpl) Delete(ctx context.Context, id uuid.UUID) error {
-	err := a.articleRepository.DeleteById(id, ctx)
+	err := a.articleRepository.DeleteById(ctx, id)
 	return err
 }
 
 func (a *UseCasesImpl) GetArticle(ctx context.Context, articleId uuid.UUID) (*entities.Article, error) {
-	art, err := a.articleRepository.GetById(articleId, ctx)
+	art, err := a.articleRepository.GetById(ctx, articleId)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return nil, err
@@ -67,14 +68,14 @@ func (a *UseCasesImpl) GetArticle(ctx context.Context, articleId uuid.UUID) (*en
 }
 
 func (a *UseCasesImpl) UpdateArticle(ctx context.Context, articleId uuid.UUID, i Input) (*entities.Article, error) {
-	currentArticle, err := a.articleRepository.GetById(articleId, ctx)
+	currentArticle, err := a.articleRepository.GetById(ctx, articleId)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return nil, err
 	}
 	currentArticle.Title = i.Title
 	currentArticle.Text = i.Text
-	err = a.articleRepository.Update(currentArticle, ctx)
+	err = a.articleRepository.Update(ctx, currentArticle)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 	}

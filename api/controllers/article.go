@@ -2,7 +2,8 @@ package controllers
 
 import (
 	"fmt"
-	"rest-project/domain/article"
+
+	"github.com/alexSkiba15/article-golang-test/domain/article"
 
 	"github.com/gofiber/fiber/v2"
 

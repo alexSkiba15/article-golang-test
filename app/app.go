@@ -1,7 +1,7 @@
 package app
 
 import (
-	grpcapp "rest-project/app/grpc"
+	grpcapp "github.com/alexSkiba15/article-golang-test/app/grpc"
 )
 
 type App struct {

@@ -2,7 +2,8 @@ package article
 
 import (
 	"context"
-	"rest-project/domain/entities"
+
+	"github.com/alexSkiba15/article-golang-test/domain/entities"
 
 	"github.com/google/uuid"
 )

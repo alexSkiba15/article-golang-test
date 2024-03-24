@@ -1,9 +1,10 @@
 package main
 
 import (
-	"rest-project/app"
-	"rest-project/config"
 	"strconv"
+
+	"github.com/alexSkiba15/article-golang-test/app"
+	"github.com/alexSkiba15/article-golang-test/config"
 )
 
 func main() {

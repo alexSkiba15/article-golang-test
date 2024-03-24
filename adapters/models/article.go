@@ -2,7 +2,8 @@ package models
 
 import (
 	"fmt"
-	"rest-project/domain/entities"
+
+	"github.com/alexSkiba15/article-golang-test/domain/entities"
 
 	"github.com/google/uuid"
 )
@@ -20,7 +21,7 @@ func (a Article) GetID() uuid.UUID {
 func (a Article) GenUUID() (uuid.UUID, error) {
 	generatedUUID, err := uuid.NewUUID()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("error generating UUID: %v", err)
 	}
 
 	return generatedUUID, nil
@@ -36,7 +37,7 @@ func (a Article) ToEntity() *entities.Article {
 	)
 }
 
-func (a Article) FromEntity(entity *entities.Article) any {
+func (a Article) FromEntity(entity *entities.Article) Article {
 	a.ID = entity.ID
 	a.Title = entity.Title
 	a.Text = entity.Text

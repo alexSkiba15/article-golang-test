@@ -1,8 +1,9 @@
 package routers
 
 import (
-	"rest-project/config"
 	"time"
+
+	"github.com/alexSkiba15/article-golang-test/config"
 
 	"github.com/gofiber/fiber/v2"
 )

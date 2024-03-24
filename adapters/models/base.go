@@ -1,8 +1,9 @@
 package models
 
 import (
-	"rest-project/domain/entities"
 	"time"
+
+	"github.com/alexSkiba15/article-golang-test/domain/entities"
 
 	"github.com/google/uuid"
 )

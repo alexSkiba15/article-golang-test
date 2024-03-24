@@ -1,9 +1,9 @@
 package article
 
 import (
-	"rest-project/adapters"
-	"rest-project/adapters/models"
-	"rest-project/domain/entities"
+	"github.com/alexSkiba15/article-golang-test/adapters"
+	"github.com/alexSkiba15/article-golang-test/adapters/models"
+	"github.com/alexSkiba15/article-golang-test/domain/entities"
 
 	"gorm.io/gorm"
 )
