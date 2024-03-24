@@ -10,7 +10,6 @@ import (
 	"gorm.io/gorm"
 )
 
-//go:generate run mockery -name=Repo -inpkg
 type (
 	Model interface {
 		entities.Article | entities.Base
