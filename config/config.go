@@ -34,7 +34,7 @@ type (
 	}
 )
 
-func NewConfig() *Config {
+func New() *Config {
 	cfg := &Config{}
 	cwd := projectRoot()
 	envFilePath := cwd + ".env"
@@ -45,6 +45,11 @@ func NewConfig() *Config {
 	}
 
 	return cfg
+}
+
+func NewPostgresDB() PostgresDB {
+	cfg := New()
+	return cfg.PostgresDB
 }
 
 func readEnv(envFilePath string, cfg *Config) error {

@@ -14,7 +14,11 @@ type SPostgres struct {
 	*gorm.DB
 }
 
-func DBConnection(pgConfig PostgresDB) *SPostgres {
+func NewGormDB(sPostgres *SPostgres) *gorm.DB {
+	return sPostgres.DB
+}
+
+func NewDBConnection(pgConfig PostgresDB) *SPostgres {
 	sPostgres := new(SPostgres)
 	var err error
 

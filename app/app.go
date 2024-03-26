@@ -8,9 +8,7 @@ type App struct {
 	GRPCServer *grpcapp.App
 }
 
-func New(
-	grpcPort int,
-) *App {
+func New(grpcPort int) *App {
 	grpcApp := grpcapp.NewGRPCApp(grpcPort)
 
 	return &App{

@@ -4,7 +4,7 @@ disable-version-string: True
 mockname: "{{.InterfaceName}}"
 filename: "mock_{{.MockName}}.go"
 outpkg: "{{.PackageName}}//mocks"
-dir: "{{.PackageName}}//mocks"
+dir: "mocks"
 
 packages:
   github.com/alexSkiba15/article-golang-test/adapters:

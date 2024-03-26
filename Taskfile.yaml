@@ -25,3 +25,9 @@ tasks:
       - "**/*.go"
     cmds:
       - go fmt ./...
+  wire:
+    desc: generate wire file
+    sources:
+      - "**/*.go"
+    cmds:
+      - cd "./di" && wire

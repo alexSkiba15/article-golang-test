@@ -13,8 +13,8 @@ import (
 )
 
 func main() {
-	conf := config.NewConfig()
-	db := config.DBConnection(conf.PostgresDB)
+	conf := config.New()
+	db := config.NewDBConnection(conf.PostgresDB)
 	defer db.Close()
 	timeout := time.Duration(60) * time.Second
 	engine := fiber.New(
